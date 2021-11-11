@@ -43,7 +43,7 @@ function HomeCarousel(props) {
 
   return (
     <Box>
-      <Carousel animation="slide" interval={2000}>
+      <Carousel animation="slide" interval={6000}>
         {bikes.map((bike, i) => (
           <Grid
             key={i}
@@ -55,7 +55,7 @@ function HomeCarousel(props) {
               alignItems: "center",
             }}
           >
-            <Grid item xs={2} sm={4} md={5}>
+            <Grid item xs={4} sm={4} md={5}>
               <Container>
                 <h2>{bike.title}</h2>
                 <h2>{bike.subtitle}</h2>
@@ -65,7 +65,13 @@ function HomeCarousel(props) {
                 </Button>
               </Container>
             </Grid>
-            <Grid xs={2} sm={4} md={6} item>
+            <Grid
+              sx={{ alignItems: "center", justifyContent: "center" }}
+              xs={4}
+              sm={4}
+              md={6}
+              item
+            >
               <img style={{ width: "100%" }} src={bike.img} alt="" />
             </Grid>
           </Grid>

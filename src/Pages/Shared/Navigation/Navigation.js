@@ -12,9 +12,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Button, List, ListItem, SwipeableDrawer } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
-
+import useAuth from "../../../Hooks/useAuth";
+import { deepOrange } from "@mui/material/colors";
 ///styled component
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,9 +65,12 @@ const useStyles = makeStyles({
 });
 
 function Navigation() {
+  const { user, logout } = useAuth();
+  console.log(user);
   const { root } = useStyles();
   const [state, setState] = React.useState(false);
 
+  ///drawer toggler
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -78,10 +82,12 @@ function Navigation() {
 
     setState({ ...state, [anchor]: open });
   };
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
 
+  ///handle menus
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -90,6 +96,12 @@ function Navigation() {
     setAnchorEl(null);
   };
 
+  ///handle logout
+  const history = useHistory();
+  const handleLogOut = () => {
+    logout();
+    history.push("/");
+  };
   ///main menu
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -108,10 +120,20 @@ function Navigation() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to="/Dashboard">
+      <Box sx={{ textAlign: "center", px: 4, py: 2 }}>
+        {user?.imgUrl ? (
+          <img src={user?.imgUrl} alt="user" />
+        ) : (
+          <AccountCircle sx={{ fontSize: 40, color: deepOrange[500] }} />
+        )}
+        <Typography>{user?.displayName}</Typography>
+      </Box>
+      <Link className={root} to="/Dashboard">
         <MenuItem>Dashboard</MenuItem>
       </Link>
-      <MenuItem onClick="logout">Logout</MenuItem>
+      <MenuItem button onClick={handleLogOut}>
+        Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -161,18 +183,39 @@ function Navigation() {
             </Typography>
           </Link>
         </ListItem>
-        <ListItem button>
-          <Link className={root} to="/dashboard">
-            <Typography variant="body2" sx={{ fontWeight: "400" }}>
-              DashBoard
-            </Typography>
-          </Link>
-        </ListItem>
-        <ListItem button>
-          <Typography variant="body2" sx={{ fontWeight: "400" }}>
-            Logout
-          </Typography>
-        </ListItem>
+
+        {!user?.email ? (
+          <ListItem button>
+            <Link className={root} to="/login">
+              <Typography variant="body2" sx={{ fontWeight: "400" }}>
+                Login
+              </Typography>
+            </Link>
+          </ListItem>
+        ) : (
+          <Box>
+            {user?.imgUrl ? (
+              <img src={user?.imgUrl} alt="user" />
+            ) : (
+              <AccountCircle sx={{ fontSize: 40, color: deepOrange[500] }} />
+            )}
+            <Box sx={{ textAlign: "center", px: 4, py: 2 }}>
+              <Typography>{user?.displayName}</Typography>
+            </Box>
+            <ListItem button>
+              <Link className={root} to="/dashboard">
+                <Typography variant="body2" sx={{ fontWeight: "400" }}>
+                  DashBoard
+                </Typography>
+              </Link>
+            </ListItem>
+            <ListItem onClick={handleLogOut} button>
+              <Typography variant="body2" sx={{ fontWeight: "400" }}>
+                Logout
+              </Typography>
+            </ListItem>
+          </Box>
+        )}
       </List>
     </Box>
   );
@@ -181,7 +224,8 @@ function Navigation() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={{ bgcolor: "white", color: "black" }} position="static">
         <Toolbar>
-          <IconButton
+          <Link
+            to="/"
             size="large"
             edge="start"
             color="inherit"
@@ -189,7 +233,7 @@ function Navigation() {
             sx={{ mr: 2 }}
           >
             <img width="130" src="https://i.ibb.co/VTKyytz/logo.png" alt="" />
-          </IconButton>
+          </Link>
 
           <Search sx={{ display: { xs: "none", md: "flex" } }}>
             <SearchIconWrapper>
@@ -214,17 +258,23 @@ function Navigation() {
             <Link className={root} to="/contact">
               <Button color="inherit">Contact Us</Button>
             </Link>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {!user?.email ? (
+              <Link className={root} to="/login">
+                <Button color="inherit">Login</Button>
+              </Link>
+            ) : (
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            )}
           </Box>
 
           {/* mobile menu */}

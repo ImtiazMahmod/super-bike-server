@@ -52,6 +52,15 @@ function Dashboard(props) {
         </ListItem>
       </List>
       <Divider />
+      <ListItem button>
+        <ListItemIcon>
+          <MailIcon />
+          <Link className={root} to="/">
+            Home
+          </Link>
+        </ListItemIcon>
+        <ListItemText />
+      </ListItem>
     </Box>
   );
 
