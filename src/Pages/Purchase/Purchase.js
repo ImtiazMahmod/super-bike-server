@@ -19,9 +19,13 @@ const Purchase = () => {
 
   //load single bike
   useEffect(() => {
-    axios.get(`http://localhost:5000/singleBike/${bikeId} `).then((res) => {
-      setBike(res.data);
-    });
+    axios
+      .get(
+        `https://nameless-fortress-10028.herokuapp.com/singleBike/${bikeId} `
+      )
+      .then((res) => {
+        setBike(res.data);
+      });
   }, [bikeId]);
 
   return (

@@ -15,9 +15,11 @@ const AddBike = () => {
   const onSubmit = (data) => {
     console.log(data);
     ///post data to server
-    axios.post("http://localhost:5000/bikes", data).then((res) => {
-      console.log(res.data);
-    });
+    axios
+      .post("https://nameless-fortress-10028.herokuapp.com/bikes", data)
+      .then((res) => {
+        console.log(res.data);
+      });
   };
 
   return (
@@ -41,6 +43,7 @@ const AddBike = () => {
             variant="outlined"
             {...register("title")}
           />
+
           <TextField
             required
             label="Image URL"
@@ -56,6 +59,7 @@ const AddBike = () => {
             type="number"
             {...register("price")}
           />
+
           <TextField
             required
             label="Rating"

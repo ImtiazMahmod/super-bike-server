@@ -10,10 +10,12 @@ const Explore = () => {
 
   //load all bike
   useEffect(() => {
-    axios.get("http://localhost:5000/bikes").then((res) => {
-      console.log(res.data);
-      setBikes(res.data);
-    });
+    axios
+      .get("https://nameless-fortress-10028.herokuapp.com/bikes")
+      .then((res) => {
+        console.log(res.data);
+        setBikes(res.data);
+      });
   }, []);
   return (
     <Box>

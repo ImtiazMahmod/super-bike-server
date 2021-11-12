@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
+import useAuth from "../../../Hooks/useAuth";
 import MuiButton from "../StyledComponent/MuiButton/MuiButton";
 
 const BuyNow = ({ bike }) => {
@@ -12,17 +13,22 @@ const BuyNow = ({ bike }) => {
     reset,
     formState: { errors },
   } = useForm();
-
+  const { user } = useAuth();
   const onSubmit = (data) => {
-    console.log(data);
-
+    const bookInfo = { ...data };
+    bookInfo.email = user?.email;
+    bookInfo.name = user?.displayName;
+    bookInfo.bikeInfo = bike;
+    bookInfo.status = "Pending";
     ///order post to server
-    axios.post("http://localhost:5000/orders", data).then((res) => {
-      if (res.data.insertedId) {
-        alert("order confirmed");
-        reset();
-      }
-    });
+    axios
+      .post("https://nameless-fortress-10028.herokuapp.com/orders", bookInfo)
+      .then((res) => {
+        if (res.data.insertedId) {
+          alert("order confirmed");
+          reset();
+        }
+      });
   };
 
   return (

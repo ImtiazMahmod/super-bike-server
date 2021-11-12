@@ -8,10 +8,12 @@ const Collection = () => {
   const [bikes, setBikes] = useState([]);
   //load all bikes
   useEffect(() => {
-    axios.get("http://localhost:5000/bikes").then((res) => {
-      console.log(res.data);
-      setBikes(res.data);
-    });
+    axios
+      .get("https://nameless-fortress-10028.herokuapp.com/bikes")
+      .then((res) => {
+        console.log(res.data);
+        setBikes(res.data);
+      });
   }, []);
   return (
     <Box sx={{ minHeight: "100vh", my: 12 }}>
