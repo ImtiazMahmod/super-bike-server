@@ -13,6 +13,7 @@ const ManageOrders = () => {
         setOrders(res.data);
       });
   }, [orders]);
+  console.log(orders);
   return (
     <div>
       <Typography variant="h4" sx={{ fontWeight: "bold", my: 3 }}>

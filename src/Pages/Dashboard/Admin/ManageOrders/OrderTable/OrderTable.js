@@ -92,7 +92,7 @@ function OrderTable({ orders }) {
               .map((order) => (
                 <StyledTableRow key={order?._id}>
                   <StyledTableCell component="th" scope="row">
-                    {order?.name}
+                    {order?.displayName}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {order?.bikeInfo?.title}
