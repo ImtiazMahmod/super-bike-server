@@ -24,6 +24,7 @@ async function run() {
     const bikesCollection = database.collection("bikes");
     const ordersCollection = database.collection("orders");
     const reviewCollection = database.collection("reviews");
+    const usersCollection = database.collection("users");
 
     ///add bike
     app.post("/bikes", async (req, res) => {
@@ -117,9 +118,44 @@ async function run() {
     app.delete("/deleteBike/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
-      console.log(id);
       const bikeDelete = await bikesCollection.deleteOne(query);
       res.send(bikeDelete);
+    });
+
+    ///user create
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      const result = await usersCollection.insertOne(user);
+      console.log(result);
+      res.json(result);
+    });
+    ///make admin
+    app.put("/makeAdmin", async (req, res) => {
+      const email = req.body.email;
+      console.log(email);
+      const filter = { email };
+      const updateDoc = {
+        $set: {
+          role: "admin",
+        },
+      };
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      console.log(result);
+      res.json(result);
+    });
+
+    ///check admin
+    app.get("/users/admin/:email", async (req, res) => {
+      const email = req.params.email;
+      console.log(email);
+      const filter = { email };
+      const user = await usersCollection.findOne(filter);
+      let isAdmin = false;
+      if (user?.role === "admin") {
+        isAdmin = true;
+      }
+      res.send({ admin: isAdmin });
+      console.log(isAdmin);
     });
   } finally {
     //   await client.close();
