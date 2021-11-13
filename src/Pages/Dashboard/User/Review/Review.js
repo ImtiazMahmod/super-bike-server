@@ -20,18 +20,20 @@ const Review = () => {
   const onSubmit = (data) => {
     data.rating = rate;
     ///review post to server
-    axios.post("http://localhost:5000/review", data).then((res) => {
-      if (res.data.insertedId) {
-        Swal.fire({
-          title: "Review",
-          text: "Your valuable review sent.",
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-          confirmButtonText: "Yes",
-        });
-        reset();
-      }
-    });
+    axios
+      .post("https://nameless-fortress-10028.herokuapp.com/review", data)
+      .then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire({
+            title: "Review",
+            text: "Your valuable review sent.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Yes",
+          });
+          reset();
+        }
+      });
   };
 
   return (
@@ -68,13 +70,6 @@ const Review = () => {
             {...register("name")}
           />
 
-          <TextField
-            required
-            label="Attach photo"
-            sx={{ mt: 2, width: "75%" }}
-            variant="outlined"
-            {...register("img")}
-          />
           {errors.quantity?.type === "min" && (
             <Typography color="error" sx={{ textAlign: "left" }}>
               Please input minimum 1

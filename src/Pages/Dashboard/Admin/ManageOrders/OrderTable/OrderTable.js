@@ -46,11 +46,15 @@ const handleDelete = (id) => {
     confirmButtonText: "Yes, delete it!",
   }).then((result) => {
     if (result.isConfirmed) {
-      axios.delete(`http://localhost:5000/deleteOrder/${id}`).then((res) => {
-        if (res.data.deletedCount) {
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
-        }
-      });
+      axios
+        .delete(
+          `https://nameless-fortress-10028.herokuapp.com/deleteOrder/${id}`
+        )
+        .then((res) => {
+          if (res.data.deletedCount) {
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          }
+        });
     }
   });
 };

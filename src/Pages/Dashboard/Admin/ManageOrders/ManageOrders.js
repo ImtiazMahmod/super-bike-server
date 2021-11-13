@@ -7,9 +7,11 @@ const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
   ///load all orders
   useEffect(() => {
-    axios.get("http://localhost:5000/allOrders").then((res) => {
-      setOrders(res.data);
-    });
+    axios
+      .get("https://nameless-fortress-10028.herokuapp.com/allOrders")
+      .then((res) => {
+        setOrders(res.data);
+      });
   }, [orders]);
   return (
     <div>

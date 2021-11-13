@@ -49,9 +49,11 @@ function ReviewSlider() {
   const [reviews, setReviews] = useState([]);
   ///load reviews
   useEffect(() => {
-    axios.get("http://localhost:5000/review").then((res) => {
-      setReviews(res.data);
-    });
+    axios
+      .get("https://nameless-fortress-10028.herokuapp.com/review")
+      .then((res) => {
+        setReviews(res.data);
+      });
   }, []);
   return (
     <div>

@@ -11,7 +11,9 @@ export default function OrderStatus({ id, status }) {
 
     ///update status
     axios
-      .put(`http://localhost:5000/orders?id=${id}&status=${changeStatus}`)
+      .put(
+        `https://nameless-fortress-10028.herokuapp.com/orders?id=${id}&status=${changeStatus}`
+      )
       .then((res) => {
         setNewStatus(changeStatus);
       });

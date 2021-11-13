@@ -10,31 +10,33 @@ const MakeAdmin = () => {
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
     ///make admin post to server
-    axios.put("http://localhost:5000/makeAdmin", data).then((res) => {
-      if (res.data.insertedId) {
-        Swal.fire({
-          title: "Make Admin",
-          text: "New Admin created.",
-          icon: "success",
-          showCancelButton: false,
-          confirmButtonColor: "#3085d6",
-          // cancelButtonColor: "#3085d6",
-          confirmButtonText: "ok",
-        });
-        reset();
-      } else {
-        Swal.fire({
-          title: "Error",
-          text: "Try Again.",
-          icon: "error",
-          showCancelButton: false,
-          confirmButtonColor: "#3085d6",
-          // cancelButtonColor: "#3085d6",
-          confirmButtonText: "ok",
-        });
-        reset();
-      }
-    });
+    axios
+      .put("https://nameless-fortress-10028.herokuapp.com/makeAdmin", data)
+      .then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire({
+            title: "Make Admin",
+            text: "New Admin created.",
+            icon: "success",
+            showCancelButton: false,
+            confirmButtonColor: "#3085d6",
+            // cancelButtonColor: "#3085d6",
+            confirmButtonText: "ok",
+          });
+          reset();
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Try Again.",
+            icon: "error",
+            showCancelButton: false,
+            confirmButtonColor: "#3085d6",
+            // cancelButtonColor: "#3085d6",
+            confirmButtonText: "ok",
+          });
+          reset();
+        }
+      });
   };
   return (
     <div>
