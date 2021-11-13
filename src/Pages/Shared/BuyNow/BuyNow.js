@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth";
 import MuiButton from "../StyledComponent/MuiButton/MuiButton";
 
@@ -25,7 +26,15 @@ const BuyNow = ({ bike }) => {
       .post("https://nameless-fortress-10028.herokuapp.com/orders", bookInfo)
       .then((res) => {
         if (res.data.insertedId) {
-          alert("order confirmed");
+          Swal.fire({
+            title: "Purchase",
+            text: "Your Order has been placed.",
+            icon: "success",
+            showCancelButton: false,
+            confirmButtonColor: "#3085d6",
+            // cancelButtonColor: "#3085d6",
+            confirmButtonText: "ok",
+          });
           reset();
         }
       });

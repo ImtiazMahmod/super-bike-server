@@ -11,7 +11,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import AddBoxSharpIcon from "@mui/icons-material/AddBoxSharp";
 import RateReviewIcon from "@mui/icons-material/RateReview";
+import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import HomeSharpIcon from "@mui/icons-material/HomeSharp";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -33,6 +35,7 @@ import useAuth from "../../Hooks/useAuth";
 import ManageOrders from "./Admin/ManageOrders/ManageOrders";
 import MakeAdmin from "./Admin/MakeAdmin/MakeAdmin";
 import ManageBikes from "./Admin/ManageBikes/ManageBikes";
+import AdminRoute from "../AdminRoute/AdminRoute";
 
 const drawerWidth = 240;
 ///make custom styles
@@ -48,12 +51,11 @@ function Dashboard(props) {
   const { path, url } = useRouteMatch();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+  const { logout, admin } = useAuth();
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const { logout } = useAuth();
   ///handle logout
   const history = useHistory();
   const handleLogOut = () => {
@@ -63,80 +65,86 @@ function Dashboard(props) {
 
   const drawer = (
     <Box>
-      <Toolbar />
-      <Divider />
-      {/* User control */}
-      <List>
-        <Link className={root} to={`${url}/pay`}>
-          <ListItem button>
-            <ListItemIcon>
-              <PaymentIcon sx={{ color: "tomato" }} />
-              <Typography sx={{ mx: 1 }}>Pay</Typography>
-            </ListItemIcon>
-          </ListItem>
-        </Link>
-        <Link className={root} to={`${url}/myOrders`}>
-          <ListItem button>
-            <ListItemIcon>
-              <ContactsIcon sx={{ color: "tomato" }} />
-              <Typography sx={{ mx: 1 }}>My Orders</Typography>
-            </ListItemIcon>
-          </ListItem>
-        </Link>
-        <Link className={root} to={`${url}/review`}>
-          <ListItem button>
-            <ListItemIcon>
-              <RateReviewIcon sx={{ color: "tomato" }} />
-              <Typography sx={{ mx: 1 }}>Review</Typography>
-            </ListItemIcon>
-          </ListItem>
-        </Link>
-      </List>
-
-      {/* Admin control */}
-      <List>
-        <Link className={root} to={`${url}/manageOrders`}>
-          <ListItem button>
-            <ListItemIcon>
-              <AddBoxSharpIcon sx={{ color: "tomato" }} />
-              <Typography sx={{ mx: 1 }}>Manage All Orders</Typography>
-            </ListItemIcon>
-          </ListItem>
-        </Link>
-        <Link className={root} to={`${url}/addBike`}>
-          <ListItem button>
-            <ListItemIcon>
-              <AddBoxSharpIcon sx={{ color: "tomato" }} />
-              <Typography sx={{ mx: 1 }}>Add a Bike</Typography>
-            </ListItemIcon>
-          </ListItem>
-        </Link>
-        <Link className={root} to={`${url}/makeAdmin`}>
-          <ListItem button>
-            <ListItemIcon>
-              <AddBoxSharpIcon sx={{ color: "tomato" }} />
-              <Typography sx={{ mx: 1 }}>Make Admin</Typography>
-            </ListItemIcon>
-          </ListItem>
-        </Link>
-        <Link className={root} to={`${url}/manageBikes`}>
-          <ListItem button>
-            <ListItemIcon>
-              <AddBoxSharpIcon sx={{ color: "tomato" }} />
-              <Typography sx={{ mx: 1 }}>Manage Bikes</Typography>
-            </ListItemIcon>
-          </ListItem>
-        </Link>
-      </List>
-      <Divider />
-      <Link className={root} to="/">
-        <ListItem button>
-          <ListItemIcon>
-            <HomeSharpIcon sx={{ color: "tomato" }} />
-            <Typography sx={{ mx: 1 }}>Home</Typography>
-          </ListItemIcon>
-        </ListItem>
+      <Link
+        to="/"
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="open drawer"
+        sx={{ mr: 2 }}
+      >
+        <img width="100" src="https://i.ibb.co/VTKyytz/logo.png" alt="logo" />
       </Link>
+      <Divider />
+
+      {!admin ? (
+        <List>
+          {/* User control */}
+          <Link className={root} to={`${url}/pay`}>
+            <ListItem button>
+              <ListItemIcon>
+                <PaymentIcon sx={{ color: "tomato" }} />
+                <Typography sx={{ mx: 1 }}>Pay</Typography>
+              </ListItemIcon>
+            </ListItem>
+          </Link>
+          <Link className={root} to={`${url}/myOrders`}>
+            <ListItem button>
+              <ListItemIcon>
+                <ContactsIcon sx={{ color: "tomato" }} />
+                <Typography sx={{ mx: 1 }}>My Orders</Typography>
+              </ListItemIcon>
+            </ListItem>
+          </Link>
+          <Link className={root} to={`${url}/review`}>
+            <ListItem button>
+              <ListItemIcon>
+                <RateReviewIcon sx={{ color: "tomato" }} />
+                <Typography sx={{ mx: 1 }}>Review</Typography>
+              </ListItemIcon>
+            </ListItem>
+          </Link>
+        </List>
+      ) : (
+        <List>
+          {/* Admin control */}
+          <Link className={root} to={`${url}/manageOrders`}>
+            <ListItem button>
+              <ListItemIcon>
+                <SettingsApplicationsIcon sx={{ color: "tomato" }} />
+                <Typography sx={{ mx: 1 }}>Manage All Orders</Typography>
+              </ListItemIcon>
+            </ListItem>
+          </Link>
+          <Link className={root} to={`${url}/addBike`}>
+            <ListItem button>
+              <ListItemIcon>
+                <AddBoxSharpIcon sx={{ color: "tomato" }} />
+                <Typography sx={{ mx: 1 }}>Add a Bike</Typography>
+              </ListItemIcon>
+            </ListItem>
+          </Link>
+          <Link className={root} to={`${url}/makeAdmin`}>
+            <ListItem button>
+              <ListItemIcon>
+                <AdminPanelSettingsIcon sx={{ color: "tomato" }} />
+                <Typography sx={{ mx: 1 }}>Make Admin</Typography>
+              </ListItemIcon>
+            </ListItem>
+          </Link>
+          <Link className={root} to={`${url}/manageBikes`}>
+            <ListItem button>
+              <ListItemIcon>
+                <SettingsApplicationsIcon sx={{ color: "tomato" }} />
+                <Typography sx={{ mx: 1 }}>Manage Bikes</Typography>
+              </ListItemIcon>
+            </ListItem>
+          </Link>
+        </List>
+      )}
+
+      <Divider />
+
       <ListItem onClick={handleLogOut} button>
         <ListItemIcon>
           <LogoutSharpIcon sx={{ color: "tomato" }} />
@@ -156,6 +164,8 @@ function Dashboard(props) {
       <AppBar
         position="fixed"
         sx={{
+          bgcolor: "white",
+          color: "black",
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
@@ -170,7 +180,7 @@ function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography fontWeight="bold" variant="h5" noWrap component="div">
             Dashboard
           </Typography>
         </Toolbar>
@@ -226,7 +236,9 @@ function Dashboard(props) {
         <Toolbar />
         <Switch>
           <Route exact path={path}>
-            <h3>Please select a topic.</h3>
+            <Typography variant="h4" sx={{ fontWeight: "bold", mt: 5 }}>
+              Welcome to Dashboard
+            </Typography>
           </Route>
           {/* user  */}
           <Route path={`${path}/pay`}>
@@ -240,18 +252,18 @@ function Dashboard(props) {
           </Route>
 
           {/* Admin */}
-          <Route path={`${path}/manageOrders`}>
+          <AdminRoute path={`${path}/manageOrders`}>
             <ManageOrders />
-          </Route>
-          <Route path={`${path}/addBike`}>
+          </AdminRoute>
+          <AdminRoute path={`${path}/addBike`}>
             <AddBike />
-          </Route>
-          <Route path={`${path}/makeAdmin`}>
+          </AdminRoute>
+          <AdminRoute path={`${path}/makeAdmin`}>
             <MakeAdmin />
-          </Route>
-          <Route path={`${path}/manageBikes`}>
+          </AdminRoute>
+          <AdminRoute path={`${path}/manageBikes`}>
             <ManageBikes />
-          </Route>
+          </AdminRoute>
         </Switch>
       </Box>
     </Box>

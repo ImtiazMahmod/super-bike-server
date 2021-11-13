@@ -3,7 +3,9 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SingleBike from "../Home/Collection/SingleBike/SingleBike";
+import Footer from "../Shared/Footer/Footer";
 import Navigation from "../Shared/Navigation/Navigation";
+import Spinner from "../Shared/Spinner/Spinner";
 
 const Explore = () => {
   const [bikes, setBikes] = useState([]);
@@ -13,10 +15,13 @@ const Explore = () => {
     axios
       .get("https://nameless-fortress-10028.herokuapp.com/bikes")
       .then((res) => {
-        console.log(res.data);
         setBikes(res.data);
       });
+    if (!bikes) {
+      return <Spinner />;
+    }
   }, []);
+
   return (
     <Box>
       <Navigation />
@@ -36,6 +41,7 @@ const Explore = () => {
           </Grid>
         </Container>
       </Box>
+      <Footer />
     </Box>
   );
 };

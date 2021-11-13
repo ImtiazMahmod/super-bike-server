@@ -5,14 +5,17 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  updateProfile,
   signOut,
 } from "firebase/auth";
+import axios from "axios";
 
 initAuth();
 const useFirebase = () => {
   const [user, setUser] = useState({});
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [admin, setAdmin] = useState(false);
   const auth = getAuth();
 
   ///user state observer
@@ -30,17 +33,23 @@ const useFirebase = () => {
   }, []);
 
   ///new User register
-  const registerUser = (email, password) => {
+  const registerUser = (email, password, name) => {
     setIsLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         // ...
+        updateUser(name);
+        const newUser = {
+          displayName: name,
+          email: user.email,
+        };
+        newUserInfo(newUser);
+        setError("");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        setError(error.message);
         // ..
       })
       .finally(() => setIsLoading(true));
@@ -62,13 +71,13 @@ const useFirebase = () => {
       })
       .finally(() => setIsLoading(false));
   };
-  console.log(user);
   ///logout
   const logout = () => {
     setIsLoading(true);
     signOut(auth)
       .then(() => {
         // Sign-out successful.
+        window.location.reload();
       })
       .catch((error) => {
         // An error happened.
@@ -76,12 +85,47 @@ const useFirebase = () => {
       .finally(() => setIsLoading(false));
   };
 
+  ///user info post to server
+  const newUserInfo = (newUser) => {
+    axios.post("http://localhost:5000/users", newUser).then((res) => {
+      ///save to database
+    });
+  };
+
+  ///update user profile
+  const updateUser = (name) => {
+    updateProfile(auth.currentUser, {
+      displayName: name,
+    })
+      .then(() => {
+        // Profile updated!
+        // ...
+      })
+      .catch((error) => {
+        // An error occurred
+        // ...
+      });
+  };
+
+  //check admin
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/users/admin/${user?.email}`)
+      .then((res) => {
+        console.log(res.data, admin);
+        if (res.data.admin) {
+          setAdmin(true);
+        }
+      });
+  }, [user?.email, admin]);
+
   return {
     user,
     error,
     isLoading,
     registerUser,
     userLogin,
+    admin,
     logout,
   };
 };

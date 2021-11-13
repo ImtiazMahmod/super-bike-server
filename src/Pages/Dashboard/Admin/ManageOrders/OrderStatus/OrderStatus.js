@@ -5,10 +5,7 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 
 export default function OrderStatus({ id, status }) {
-  console.log(status);
   const [newStatus, setNewStatus] = useState(status);
-  console.log(newStatus);
-  console.log(status);
   const handleChange = (event) => {
     const changeStatus = event?.target?.value;
 
@@ -17,7 +14,6 @@ export default function OrderStatus({ id, status }) {
       .put(`http://localhost:5000/orders?id=${id}&status=${changeStatus}`)
       .then((res) => {
         setNewStatus(changeStatus);
-        console.log(res.data);
       });
   };
 

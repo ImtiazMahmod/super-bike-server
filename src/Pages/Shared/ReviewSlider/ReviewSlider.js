@@ -50,7 +50,6 @@ function ReviewSlider() {
   ///load reviews
   useEffect(() => {
     axios.get("http://localhost:5000/review").then((res) => {
-      console.log(res.data);
       setReviews(res.data);
     });
   }, []);
@@ -61,7 +60,7 @@ function ReviewSlider() {
           REVIEWS
         </Typography>
         <Typography variant="h4" fontWeight="bold">
-          Why customer love us
+          WHY CUSTOMER LOVE US
         </Typography>
         <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid item xs={4} sm={4} md={6}>

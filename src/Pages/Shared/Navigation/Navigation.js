@@ -11,7 +11,13 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { Button, List, ListItem, SwipeableDrawer } from "@mui/material";
+import {
+  Button,
+  Divider,
+  List,
+  ListItem,
+  SwipeableDrawer,
+} from "@mui/material";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import useAuth from "../../../Hooks/useAuth";
@@ -66,7 +72,7 @@ const useStyles = makeStyles({
 
 function Navigation() {
   const { user, logout } = useAuth();
-  console.log(user);
+
   const { root } = useStyles();
   const [state, setState] = React.useState(false);
 
@@ -140,7 +146,9 @@ function Navigation() {
   ////mobile menu
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor ? "auto" : 200 }}
+      sx={{
+        width: anchor ? "auto" : 200,
+      }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
@@ -157,7 +165,7 @@ function Navigation() {
       <List>
         <ListItem button>
           <Link className={root} to="/home">
-            <Typography variant="bod" sx={{ fontWeight: "400" }}>
+            <Typography variant="body2" sx={{ fontWeight: "400" }}>
               Home
             </Typography>
           </Link>
@@ -183,7 +191,7 @@ function Navigation() {
             </Typography>
           </Link>
         </ListItem>
-
+        <Divider sx={{ my: 1 }} />
         {!user?.email ? (
           <ListItem button>
             <Link className={root} to="/login">
@@ -197,9 +205,11 @@ function Navigation() {
             {user?.imgUrl ? (
               <img src={user?.imgUrl} alt="user" />
             ) : (
-              <AccountCircle sx={{ fontSize: 40, color: deepOrange[500] }} />
+              <AccountCircle
+                sx={{ fontSize: 40, color: deepOrange[500], px: 4 }}
+              />
             )}
-            <Box sx={{ textAlign: "center", px: 4, py: 2 }}>
+            <Box sx={{ px: 4, py: 1, color: "tomato", fontWeight: "bold" }}>
               <Typography>{user?.displayName}</Typography>
             </Box>
             <ListItem button>
@@ -232,7 +242,11 @@ function Navigation() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <img width="130" src="https://i.ibb.co/VTKyytz/logo.png" alt="" />
+            <img
+              width="130"
+              src="https://i.ibb.co/VTKyytz/logo.png"
+              alt="logo"
+            />
           </Link>
 
           <Search sx={{ display: { xs: "none", md: "flex" } }}>

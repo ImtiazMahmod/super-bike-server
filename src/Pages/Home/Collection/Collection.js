@@ -11,7 +11,6 @@ const Collection = () => {
     axios
       .get("https://nameless-fortress-10028.herokuapp.com/bikes")
       .then((res) => {
-        console.log(res.data);
         setBikes(res.data);
       });
   }, []);

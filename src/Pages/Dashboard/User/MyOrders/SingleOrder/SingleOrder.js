@@ -7,12 +7,16 @@ import {
   CardActionArea,
   CardActions,
   Divider,
+  IconButton,
   Rating,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { makeStyles, styled } from "@mui/styles";
 import { Link } from "react-router-dom";
 import { green, red } from "@mui/material/colors";
+import { BackspaceOutlined } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -34,6 +38,27 @@ const useStyles = makeStyles({
 });
 
 const SingleOrder = ({ order }) => {
+  //delete bike
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Your order will be canceled!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:5000/deleteOrder/${id}`).then((res) => {
+          if (res.data.deletedCount) {
+            Swal.fire("Cancel!", "Your order has been deleted.", "success");
+          }
+        });
+      }
+    });
+  };
+  console.log(order);
   const { root, status } = useStyles();
   return (
     <Card
@@ -73,7 +98,7 @@ const SingleOrder = ({ order }) => {
             </Typography>
           )}
         </Box>
-        <img src={order?.bike?.img} height="auto" width="100%" alt="bike" />
+        <img src={order?.bikeInfo?.img} height="auto" width="100%" alt="bike" />
       </CardActionArea>
       <CardContent>
         <StyledRating
@@ -81,12 +106,12 @@ const SingleOrder = ({ order }) => {
           size="small"
           color="tomato"
           name="half-rating"
-          //   defaultValue={rating}
+          defaultValue={order?.bikeInfo?.rating}
           readOnly
         />
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography gutterBottom variant="h6" component="div">
-            {order?.bike?.title}
+            {order?.bikeInfo?.title}
           </Typography>
           <Typography
             gutterBottom
@@ -94,25 +119,39 @@ const SingleOrder = ({ order }) => {
             fontWeight="bold"
             component="div"
           >
-            BDT {order?.bike?.price}
+            BDT {order?.bikeInfo?.price}
           </Typography>
         </Box>
         <Divider />
+        <Typography
+          textAlign="left"
+          gutterBottom
+          sx={{ mt: 1 }}
+          variant="subtitle1"
+          component="div"
+        >
+          {order?.bikeInfo?.desc}
+        </Typography>
       </CardContent>
-      <CardActions sx={{ my: 1 }}>
-        <Box sx={{ mx: "auto" }}>
-          {" "}
-          <Link className={root} to={`/purchase/${order?.bike?._id}`}>
-            <Button
-              variant="outlined"
-              size="small"
-              color="error"
-              sx={{ color: "tomato" }}
-            >
-              Details
-            </Button>
-          </Link>
-        </Box>
+      <CardActions
+        sx={{ my: 1, display: "flex", justifyContent: "space-between" }}
+      >
+        <Link className={root} to={`/purchase/${order?.bikeInfo?._id}`}>
+          <Button
+            variant="outlined"
+            size="small"
+            color="error"
+            sx={{ color: "tomato" }}
+          >
+            Details
+          </Button>
+        </Link>
+        <IconButton
+          onClick={() => handleDelete(order?._id)}
+          sx={{ textAlign: "right" }}
+        >
+          <BackspaceOutlined button color="error" />
+        </IconButton>
       </CardActions>{" "}
     </Card>
   );

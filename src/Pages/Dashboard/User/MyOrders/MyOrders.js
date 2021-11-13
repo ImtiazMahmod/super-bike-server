@@ -13,10 +13,9 @@ const MyOrders = () => {
     axios
       .get(`http://localhost:5000/myOrders?email=${user?.email}`)
       .then((res) => {
-        console.log(res.data);
         setMyOrders(res.data);
       });
-  }, []);
+  }, [myOrders]);
   return (
     <div>
       <Typography variant="h4" sx={{ fontWeight: "bold", my: 3 }}>

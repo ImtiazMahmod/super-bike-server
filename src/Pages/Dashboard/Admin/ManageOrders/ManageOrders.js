@@ -8,7 +8,6 @@ const ManageOrders = () => {
   ///load all orders
   useEffect(() => {
     axios.get("http://localhost:5000/allOrders").then((res) => {
-      console.log(res.data);
       setOrders(res.data);
     });
   }, [orders]);

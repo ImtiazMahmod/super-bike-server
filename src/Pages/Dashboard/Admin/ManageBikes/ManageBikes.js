@@ -8,7 +8,6 @@ const ManageBikes = () => {
   ///load all orders
   useEffect(() => {
     axios.get("http://localhost:5000/bikes").then((res) => {
-      console.log(res.data);
       setBikes(res.data);
     });
   }, [bikes]);

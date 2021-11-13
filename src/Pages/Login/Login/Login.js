@@ -1,8 +1,16 @@
-import { Container, Divider, Grid, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Container,
+  Divider,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 import useFirebase from "../../../Hooks/useFirebase";
 import Navigation from "../../Shared/Navigation/Navigation";
 import MuiButton from "../../Shared/StyledComponent/MuiButton/MuiButton";
@@ -13,13 +21,9 @@ const Login = () => {
   ///redirect to destination
   const location = useLocation();
   const history = useHistory();
+
   const onSubmit = (data) => {
-    if (!error) {
-      userLogin(data.email, data.password, location, history);
-      reset();
-    } else {
-      // reset();
-    }
+    userLogin(data.email, data.password, location, history);
   };
 
   return (
@@ -76,6 +80,11 @@ const Login = () => {
                 Register
               </Link>
             </Typography>
+            {error && (
+              <Alert sx={{ my: 2 }} severity="error">
+                Email/password wrong.
+              </Alert>
+            )}
           </Grid>
           <Grid item xs={4} sm={4} md={7}>
             <img

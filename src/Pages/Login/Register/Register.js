@@ -1,25 +1,31 @@
-import { Container, Divider, Grid, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Container,
+  Divider,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth";
 import Navigation from "../../Shared/Navigation/Navigation";
 import MuiButton from "../../Shared/StyledComponent/MuiButton/MuiButton";
 
 const Register = () => {
   const [error, setError] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const [success, setSuccess] = useState(false);
+  const { register, handleSubmit, reset } = useForm();
   const { registerUser } = useAuth();
+
   const onSubmit = (data) => {
     if (data.password === data.confirmPassword) {
-      registerUser(data.email, data.password);
+      registerUser(data.email, data.password, data.name);
       setError(false);
+      setSuccess(true);
       reset();
     } else {
       setError(true);
@@ -85,11 +91,6 @@ const Register = () => {
                   variant="outlined"
                   {...register("confirmPassword")}
                 />
-                {error && (
-                  <Typography sx={{ mb: 2 }} color="error">
-                    Password not matched
-                  </Typography>
-                )}
               </Box>
               <MuiButton type="submit">Register</MuiButton>
             </form>
@@ -100,6 +101,16 @@ const Register = () => {
                 Login
               </Link>
             </Typography>
+            {error && (
+              <Alert sx={{ my: 2 }} severity="error">
+                Password not matched.
+              </Alert>
+            )}
+            {success && (
+              <Alert sx={{ my: 2 }} severity="success">
+                Account successfully created.
+              </Alert>
+            )}
           </Grid>
           <Grid item xs={4} sm={4} md={7}>
             <img

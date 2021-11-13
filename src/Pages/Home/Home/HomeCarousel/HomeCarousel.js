@@ -1,8 +1,9 @@
 import React from "react";
-import { Button, Container, Grid } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import { Box } from "@mui/system";
 import { makeStyles } from "@mui/styles";
+import { Link } from "react-router-dom";
 
 function HomeCarousel(props) {
   var bikes = [
@@ -14,17 +15,15 @@ function HomeCarousel(props) {
     },
     {
       img: "https://i.ibb.co/wMPDwTK/layer-img-1.png",
-      title: "GREATNESS REVIVED",
+      title: "REVIVED",
       subtitle: "Introducing New MODEL",
-      description:
-        "The All Rounder GSX 125 - from the great combination of the GSX & Gixxer Series.",
+      description: "The All Rounder Gixxer Series.",
     },
     {
       img: "https://i.ibb.co/wMPDwTK/layer-img-1.png",
-      title: "GREATNESS REVIVED",
+      title: "Awesome",
       subtitle: "Introducing New MODEL",
-      description:
-        "The All Rounder GSX 125 - from the great combination of the GSX & Gixxer Series.",
+      description: "The All Rounder GSX 125 .",
     },
   ];
 
@@ -32,7 +31,6 @@ function HomeCarousel(props) {
     root: {
       background: "url(https://i.ibb.co/h97T76F/1.jpg)",
       minHeight: "70vh",
-      //   height: "100vh",
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       mnWidth: "100%",
@@ -51,28 +49,69 @@ function HomeCarousel(props) {
             className={root}
             container
             spacing={3}
-            sx={{
-              alignItems: "center",
-            }}
           >
-            <Grid item xs={4} sm={4} md={5}>
+            <Grid
+              item
+              xs={4}
+              sm={4}
+              md={5}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                mt: 3,
+                mx: "auto",
+              }}
+            >
               <Container>
-                <h2>{bike.title}</h2>
-                <h2>{bike.subtitle}</h2>
-                <p>{bike.description}</p>
-                <Button variant="contained" className="CheckButton">
-                  Buy Now
-                </Button>
+                <Box>
+                  <Typography
+                    sx={{ textAlign: "left", fontWeight: "bold" }}
+                    variant="h3"
+                  >
+                    {bike.title}
+                  </Typography>
+                  <Typography sx={{ textAlign: "left" }} variant="h4">
+                    {bike.subtitle}
+                  </Typography>
+                  <Typography sx={{ textAlign: "left" }} variant="h5">
+                    {bike.description}
+                  </Typography>
+
+                  <Link style={{ textDecoration: "none" }} to="/explore">
+                    {" "}
+                    <Button
+                      sx={{ display: "flex", color: "white", mt: 3 }}
+                      color="warning"
+                      variant="contained"
+                      className="CheckButton"
+                    >
+                      Buy Now
+                    </Button>
+                  </Link>
+                </Box>
               </Container>
             </Grid>
             <Grid
-              sx={{ alignItems: "center", justifyContent: "center" }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                mt: 3,
+              }}
               xs={4}
               sm={4}
               md={6}
               item
             >
-              <img style={{ width: "100%" }} src={bike.img} alt="" />
+              <Box
+                sx={{
+                  p: 5,
+                }}
+              >
+                {" "}
+                <img style={{ width: "100%" }} src={bike.img} alt="" />
+              </Box>
             </Grid>
           </Grid>
         ))}

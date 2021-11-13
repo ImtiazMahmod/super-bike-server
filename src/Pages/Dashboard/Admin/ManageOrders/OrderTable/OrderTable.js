@@ -10,7 +10,8 @@ import Paper from "@mui/material/Paper";
 import OrderStatus from "../OrderStatus/OrderStatus";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { IconButton } from "@mui/material";
+import { IconButton, TablePagination } from "@mui/material";
+import Swal from "sweetalert2";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,54 +36,95 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 ///delete order
 const handleDelete = (id) => {
-  axios.delete(`http://localhost:5000/deleteOrder/${id}`).then((res) => {
-    console.log(res.data);
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios.delete(`http://localhost:5000/deleteOrder/${id}`).then((res) => {
+        if (res.data.deletedCount) {
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+      });
+    }
   });
 };
 
 function OrderTable({ orders }) {
+  ///pagination
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Customer Name</StyledTableCell>
-            <StyledTableCell align="right">Bike Name</StyledTableCell>
-            <StyledTableCell align="right">Price</StyledTableCell>
-            <StyledTableCell align="right">Address</StyledTableCell>
-            <StyledTableCell align="right">Status</StyledTableCell>
-            <StyledTableCell align="right">Delete</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {orders?.map((order) => (
-            <StyledTableRow key={order?._id}>
-              <StyledTableCell component="th" scope="row">
-                {order?.displayName}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {order?.bikeInfo?.title}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {order?.bikeInfo?.price}
-              </StyledTableCell>
-              <StyledTableCell align="right">{order?.address}</StyledTableCell>
-              <StyledTableCell align="right">
-                <OrderStatus status={order?.status} id={order?._id} />
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                <IconButton
-                  onClick={() => handleDelete(order?._id)}
-                  aria-label="delete"
-                >
-                  <DeleteIcon color="error" />
-                </IconButton>
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Paper>
+      <TableContainer sx={{ maxHeight: 640 }}>
+        <Table sx={{ minWidth: 480 }} stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Customer Name</StyledTableCell>
+              <StyledTableCell align="right">Bike Name</StyledTableCell>
+              <StyledTableCell align="right">Price</StyledTableCell>
+              <StyledTableCell align="right">Address</StyledTableCell>
+              <StyledTableCell align="right">Status</StyledTableCell>
+              <StyledTableCell align="right">Delete</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((order) => (
+                <StyledTableRow key={order?._id}>
+                  <StyledTableCell component="th" scope="row">
+                    {order?.displayName}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {order?.bikeInfo?.title}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {order?.bikeInfo?.price}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {order?.address}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <OrderStatus status={order?.status} id={order?._id} />
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <IconButton
+                      onClick={() => handleDelete(order?._id)}
+                      aria-label="delete"
+                    >
+                      <DeleteIcon color="error" />
+                    </IconButton>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={orders.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
   );
 }
 
