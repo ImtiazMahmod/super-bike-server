@@ -31,21 +31,14 @@ const SingleBike = ({ bike }) => {
   return (
     <Card sx={{ maxWidth: 345, height: 480, borderRadius: "20px" }}>
       <CardActionArea sx={{ pt: 3 }}>
-        <img src={bike?.img} height="auto" width="100%" alt="bike" />
+        <img src={bike?.img} height="200" width="100%" alt="bike" />
       </CardActionArea>
       <CardContent>
-        <StyledRating
-          sx={{ ms: "auto" }}
-          size="small"
-          color="tomato"
-          name="half-rating"
-          defaultValue={bike?.rating}
-          readOnly
-        />
+        <Typography textAlign="left" gutterBottom variant="h6" component="div">
+          {bike?.title}
+        </Typography>
+
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography gutterBottom variant="h6" component="div">
-            {bike?.title}
-          </Typography>
           <Typography
             gutterBottom
             variant="subtitle1"
@@ -54,10 +47,18 @@ const SingleBike = ({ bike }) => {
           >
             BDT {bike?.price}
           </Typography>
+          <StyledRating
+            sx={{ ms: "auto" }}
+            size="small"
+            color="tomato"
+            name="half-rating"
+            defaultValue={bike?.rating}
+            readOnly
+          />
         </Box>
         <Divider />
         <Typography sx={{ pt: 2 }} variant="body2" color="text.secondary">
-          {bike?.desc.slice(0, 50)}...
+          {bike?.desc.slice(0, 100)}...
         </Typography>
       </CardContent>
 

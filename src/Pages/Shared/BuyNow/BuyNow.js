@@ -18,7 +18,7 @@ const BuyNow = ({ bike }) => {
   const onSubmit = (data) => {
     const bookInfo = { ...data };
     bookInfo.email = user?.email;
-    bookInfo.name = user?.displayName;
+    bookInfo.displayName = user?.displayName;
     bookInfo.bikeInfo = bike;
     bookInfo.status = "Pending";
     ///order post to server

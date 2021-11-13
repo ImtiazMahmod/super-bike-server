@@ -5,6 +5,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import BuyNow from "../Shared/BuyNow/BuyNow";
+import Footer from "../Shared/Footer/Footer";
 import Navigation from "../Shared/Navigation/Navigation";
 
 const StyledRating = styled(Rating)({
@@ -39,12 +40,24 @@ const Purchase = () => {
               <Box>
                 <Box sx={{ my: 4 }}>
                   {" "}
+                  <Typography textAlign="left" fontWeight="bold" variant="h4">
+                    {bike?.title}
+                  </Typography>
                   <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      my: 3,
+                    }}
                   >
                     {" "}
-                    <Typography fontWeight="bold" variant="h4">
-                      {bike?.title}
+                    <Typography
+                      sx={{
+                        fontWeight: "bold",
+                        color: "tomato",
+                      }}
+                    >
+                      BDT {bike?.price}
                     </Typography>
                     <StyledRating
                       sx={{ ms: "auto" }}
@@ -55,15 +68,6 @@ const Purchase = () => {
                       readOnly
                     />
                   </Box>
-                  <Typography
-                    sx={{
-                      textAlign: "end",
-                      fontWeight: "bold",
-                      color: "tomato",
-                    }}
-                  >
-                    BDT {bike?.price}
-                  </Typography>
                 </Box>
                 <Divider sx={{ my: 3 }} />
                 <Typography sx={{ textAlign: "start" }}>
@@ -77,6 +81,7 @@ const Purchase = () => {
           </Grid>
         </Box>
       </Container>
+      <Footer />
     </>
   );
 };

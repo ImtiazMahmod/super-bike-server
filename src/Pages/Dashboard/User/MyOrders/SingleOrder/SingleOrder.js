@@ -105,18 +105,16 @@ const SingleOrder = ({ order }) => {
         <img src={order?.bikeInfo?.img} height="auto" width="100%" alt="bike" />
       </CardActionArea>
       <CardContent>
-        <StyledRating
-          sx={{ ms: "auto" }}
-          size="small"
-          color="tomato"
-          name="half-rating"
-          defaultValue={order?.bikeInfo?.rating}
-          readOnly
-        />
+        {" "}
+        <Typography
+          sx={{ textAlign: "left" }}
+          gutterBottom
+          variant="h6"
+          component="div"
+        >
+          {order?.bikeInfo?.title}
+        </Typography>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography gutterBottom variant="h6" component="div">
-            {order?.bikeInfo?.title}
-          </Typography>
           <Typography
             gutterBottom
             variant="subtitle1"
@@ -125,6 +123,14 @@ const SingleOrder = ({ order }) => {
           >
             BDT {order?.bikeInfo?.price}
           </Typography>
+          <StyledRating
+            sx={{ ms: "auto" }}
+            size="small"
+            color="tomato"
+            name="half-rating"
+            defaultValue={order?.bikeInfo?.rating}
+            readOnly
+          />
         </Box>
         <Divider />
         <Typography
@@ -134,7 +140,7 @@ const SingleOrder = ({ order }) => {
           variant="subtitle1"
           component="div"
         >
-          {order?.bikeInfo?.desc}
+          {order?.bikeInfo?.desc.slice(0, 50)}
         </Typography>
       </CardContent>
       <CardActions

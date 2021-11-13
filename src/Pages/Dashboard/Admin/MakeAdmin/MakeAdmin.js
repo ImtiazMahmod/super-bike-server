@@ -13,7 +13,7 @@ const MakeAdmin = () => {
     axios
       .put("https://nameless-fortress-10028.herokuapp.com/makeAdmin", data)
       .then((res) => {
-        if (res.data.insertedId) {
+        if (res.data.modifiedCount) {
           Swal.fire({
             title: "Make Admin",
             text: "New Admin created.",

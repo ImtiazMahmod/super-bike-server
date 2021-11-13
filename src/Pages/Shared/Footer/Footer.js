@@ -21,12 +21,12 @@ const Footer = () => {
     <Box sx={{ py: 4, bgcolor: grey[900] }}>
       <Container>
         <Grid container spacing={3} columns={{ xs: 4, sm: 8, md: 12 }}>
-          <Grid xs={4} sm={4} md={3} item>
+          <Grid sx={{ textAlign: "left" }} xs={4} sm={4} md={3} item>
             <img width="150" src="https://i.ibb.co/VTKyytz/logo.png" alt="" />
             <Typography
               sx={{ color: grey[500], fontSize: 14, textAlign: "left" }}
             >
-              If you are looking for the smoothest way to reach the top speed &
+              If you are looking for the smoothest way to reach the top \speed &
               cruise in front of your competitors, you’re in the right place.
               Welcome to Super Bike.
             </Typography>

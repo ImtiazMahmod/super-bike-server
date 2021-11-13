@@ -57,7 +57,6 @@ function HomeCarousel(props) {
               md={5}
               sx={{
                 display: "flex",
-                justifyContent: "center",
                 alignItems: "center",
                 mt: 3,
                 mx: "auto",
@@ -77,19 +76,18 @@ function HomeCarousel(props) {
                   <Typography sx={{ textAlign: "left" }} variant="h5">
                     {bike.description}
                   </Typography>
-
-                  <Link style={{ textDecoration: "none" }} to="/explore">
-                    {" "}
-                    <Button
-                      sx={{ display: "flex", color: "white", mt: 3 }}
-                      color="warning"
-                      variant="contained"
-                      className="CheckButton"
-                    >
-                      Buy Now
-                    </Button>
-                  </Link>
                 </Box>
+                <Link style={{ textDecoration: "none" }} to="/explore">
+                  {" "}
+                  <Button
+                    sx={{ display: "flex", color: "white", mt: 3 }}
+                    color="warning"
+                    variant="contained"
+                    className="CheckButton"
+                  >
+                    Buy Now
+                  </Button>
+                </Link>
               </Container>
             </Grid>
             <Grid
